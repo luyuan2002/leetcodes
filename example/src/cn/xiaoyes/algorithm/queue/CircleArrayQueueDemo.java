@@ -2,13 +2,13 @@ package cn.xiaoyes.algorithm.queue;
 
 import java.util.Scanner;
 
-/**
- * 使用数组模拟队列
- */
-public class ArrayQueueDemo {
+public class CircleArrayQueueDemo {
+
     public static void main(String[] args) {
+        System.out.println("测试数组模拟环形队列");
+
         // 创建队列
-        ArrayQueue arrayQueue = new ArrayQueue(3);
+        CircleArrayQueue arrayQueue = new CircleArrayQueue(4);
         char key = ' ';
         Scanner sc = new Scanner(System.in);
         boolean loop = true;
@@ -54,29 +54,28 @@ public class ArrayQueueDemo {
             }
         }
         System.out.println("程序退出");
+
     }
 
-
-    static class ArrayQueue {
+    static class CircleArrayQueue {
 
         // 表示数组的最大容量
         private int maxSize;
 
-        // 队列头
+        // front变量的含义做一个调整：front就指向队列的第一个元素，也就是说arr[front]就是队列的第一个元素，front的初始值 = 0
         private int front;
 
-        // 队列尾
+        // rear变量的含义做一个调整：rear指向队列的最后一个元素的后一个位置，因为希望空出一个空间作为约定，rear的初始值 = 0
         private int rear;
 
         // 该数组用于存放数据，模拟队列
         private int[] arr;
 
-        // 创建队列的构造器
-        public ArrayQueue(int maxSize) {
+        public CircleArrayQueue(int maxSize) {
             this.maxSize = maxSize;
             arr = new int[maxSize];
-            front = -1;// 指向队列头部，分析出front是指向队列头部的前一个位置
-            rear = -1;// 指向队列尾部，指向队列尾的数据
+            front = 0;
+            rear = 0;
         }
 
         /**
@@ -85,7 +84,7 @@ public class ArrayQueueDemo {
          * @return
          */
         public boolean isFull() {
-            return rear == maxSize - 1;
+            return (rear + 1) % maxSize == front;
         }
 
         /**
@@ -109,9 +108,10 @@ public class ArrayQueueDemo {
                 System.out.println("队列满，不能加入数据");
                 return;
             }
-            // rear后移
-            rear++;
+            // 直接将数据加入
             arr[rear] = n;
+            // 将rear后移，这里必须考虑取模
+            rear = (rear + 1) % maxSize;
         }
 
         /**
@@ -125,8 +125,13 @@ public class ArrayQueueDemo {
                 // 抛出异常
                 throw new RuntimeException("队列为空，不能取数据");
             }
-            front++;// front后移
-            return arr[front];
+            // 这里需要分析出front是指向队列的第一个元素
+            // 先把front对应的值保存到一个零食变量
+            // 将front后移，考虑取模
+            // 将临时保存的变返回
+            int value = arr[front];
+            front = (front + 1) % maxSize;
+            return value;
         }
 
         /**
@@ -137,9 +142,20 @@ public class ArrayQueueDemo {
             if (isEmpty()) {
                 throw new RuntimeException("队列为空，不能取数据");
             }
-            for (int i = 0; i < arr.length; i++) {
-                System.out.printf("arr[%d]=%d\n", i, arr[i]);
+            // 从front开始遍历，遍历多少个元素
+            for (int i = front; i < front + size(); i++) {
+                System.out.printf("arr[%d]=%d\n", i % maxSize, arr[i % maxSize]);
             }
+        }
+
+        /**
+         * 求出当前队列有效数据的个数
+         */
+        public int size() {
+            // rear = 1
+            // front = 0
+            // maxSize = 3
+            return (rear + maxSize - front) % maxSize;
         }
 
         /**
@@ -149,7 +165,8 @@ public class ArrayQueueDemo {
             if (isEmpty()) {
                 throw new RuntimeException("队列为空，不能取数据");
             }
-            return arr[front + 1];
+            return arr[front];
         }
+
     }
 }

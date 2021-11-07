@@ -5,7 +5,7 @@ import java.util.Stack;
 /**
  * 模拟单链表
  */
-public class SingleLikedListDemo {
+public class SingleLinkedListDemo {
     public static void main(String[] args) {
 
         HeroNode node1 = new HeroNode(1, "松江", "及时雨");

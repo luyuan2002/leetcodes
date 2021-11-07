@@ -1,5 +1,7 @@
 package cn.xiaoyes.algorithm.linkedlist;
 
+import java.util.Stack;
+
 /**
  * 模拟单链表
  */
@@ -26,7 +28,7 @@ public class SingleLikedListDemo {
 
         // 测试修改节点的代码
         singleLinkedList.list();
-        HeroNode newHeroNode = new HeroNode(2,"小鹿","玉麒麟");
+        HeroNode newHeroNode = new HeroNode(2, "小鹿", "玉麒麟");
         singleLinkedList.update(newHeroNode);
         System.out.println("修改后的链表");
         singleLinkedList.list();
@@ -35,6 +37,113 @@ public class SingleLikedListDemo {
         // 测试删除节点的代码
         singleLinkedList.delete(3);
         singleLinkedList.list();
+
+        // 测试单链表的有效个数
+        System.out.println(getLength(singleLinkedList.getHead()));
+
+        System.out.println(findLastNode(singleLinkedList.head, 2));
+
+        reverseList(singleLinkedList.head);
+        System.out.println("反转后的链表");
+        singleLinkedList.list();
+        System.out.println("逆序打印: ");
+        reverseStack(singleLinkedList.head);
+    }
+
+    /**
+     * 获取到单链表的节点个数(如果是带头节点的链表 需求不统计节点数)
+     *
+     * @param node
+     * @return
+     */
+    public static int getLength(HeroNode node) {
+        if (node.next == null) {
+            return 0;
+        }
+        int length = 0;
+        HeroNode cur = node.next;
+        while (cur != null) {
+            length++;
+            cur = cur.next;
+        }
+        return length;
+    }
+
+
+    /**
+     * 查找单链表的倒数第k个节点
+     * 1、编写一个方法接收head节点 同时接收index
+     * 2、index表示是倒数第index个节点
+     * 3、先把链表从头到尾遍历，获取到链表的总长度getLength
+     * 4、得到size后 我们从链表的第一个开始遍历(size - index)个 就可以得到
+     * 5、如果找到返回该节点 找不到返回null
+     */
+    public static HeroNode findLastNode(HeroNode head, int index) {
+        // 如果链表为空 返回null
+        if (head.next == null) {
+            return null;
+        }
+        // 第一次遍历得到链表的长度(节点个数)
+        int size = getLength(head);
+        // 第二次遍历size - index位置 就是倒数第k个节点
+        // 先做一个index校验
+        if (index <= 0 || index > size) {
+            return null;
+        }
+        // 定义辅助变量
+        HeroNode cur = head.next;
+        for (int i = 0; i < size - index; i++) {
+            cur = cur.next;
+        }
+        return cur;
+    }
+
+    /**
+     * 将单链表进行反转
+     * @param head
+     * @return
+     */
+    public static void reverseList(HeroNode head){
+        // 如果当前链表为空 或者只有一个节点 无需反转 直接返回
+        if (head.next == null || head.next.next == null){
+            return ;
+        }
+        // 定义一个辅助指针(变量) 帮助我们遍历原来的链表
+        HeroNode cur = head.next;
+        HeroNode next = null;// 指向当前节点[cur]的下一个节点
+        HeroNode reverseHead = new HeroNode(0,"","");
+        // 遍历原来的链表 每遍历一个节点 就将其取出 并放在心的链表reverseHead的最前端
+        while (cur != null){
+            // 先暂时保存当前节点的下一个节点 因为之后要使用
+            next = cur.next;
+            // 将cur的下一个节点指向新的链表的最前端
+            cur.next = reverseHead.next;
+            reverseHead.next = cur;// 将cur连接到新的链表
+            cur = next;// 让cur后移
+        }
+        // 将head.next指向reverseHead.next
+        head.next = reverseHead.next;
+    }
+
+    /**
+     * 逆序打印单链表(使用栈 先进后出 后进先出)
+     *
+     */
+    public static void reverseStack(HeroNode head){
+        if (head.next == null){
+            return;
+        }
+        // 创建一个栈 将各个各个节点存放到栈中
+        Stack<HeroNode> stack = new Stack<>();
+        HeroNode cur = head.next;
+        while (cur != null){
+            stack.push(cur);
+            cur = cur.next;
+        }
+        // 将栈中的节点进行打印
+        while (stack.size() > 0){
+            System.out.println(stack.pop());
+        }
     }
 
     // 定义SingleLinkedList管理英雄
@@ -42,6 +151,11 @@ public class SingleLikedListDemo {
 
         // 初始化一个头节点 不存放具体得数据
         private HeroNode head = new HeroNode(0, "", "");
+
+        public HeroNode getHead() {
+            return head;
+        }
+
 
         // 添加节点到单向链表
         // 当不考虑编号得顺序时
@@ -99,18 +213,18 @@ public class SingleLikedListDemo {
         // 根据node得no来修改
         public void update(HeroNode node) {
             // 判断是否为空
-            if (head.next == null){
+            if (head.next == null) {
                 System.out.println("链表为空");
                 return;
             }
             // 找到需要修改得节点，根据no编号来找
             HeroNode temp = head.next;
             boolean flag = false;
-            while (true){
-                if (temp == null){
+            while (true) {
+                if (temp == null) {
                     break;// 到链表的最后 跳出循环
                 }
-                if (temp.no == node.no){
+                if (temp.no == node.no) {
                     // 找到节点
                     flag = true;
                     break;
@@ -118,10 +232,10 @@ public class SingleLikedListDemo {
                 temp = temp.next;
             }
             // 根据flag判断是否找到要修改的节点
-            if (flag){
+            if (flag) {
                 temp.name = node.name;
                 temp.nickname = node.nickname;
-            }else {
+            } else {
                 // 没有找到节点
                 System.out.println("没有找到编号" + node.no + "的节点");
             }
@@ -130,23 +244,23 @@ public class SingleLikedListDemo {
         // 删除节点
         // head节点不能动 因此我们需要一个temp复制节点找到待删除节点的前一个节点
         // 说明我们在比较时，是temp.next.no和需要删除的节点的no比较
-        public void delete(int no){
+        public void delete(int no) {
             HeroNode temp = head;
             boolean flag = false;// 标志是否找到
-            while (true){
-                if (temp.next == null){// 已经到链表的最后
+            while (true) {
+                if (temp.next == null) {// 已经到链表的最后
                     break;
                 }
-                if (temp.next.no == no){
+                if (temp.next.no == no) {
                     // 找到哦了待删除节点的前一个节点
                     flag = true;
                     break;
                 }
                 temp = temp.next;// temp后移 遍历
             }
-            if (flag){
+            if (flag) {
                 temp.next = temp.next.next;
-            }else {
+            } else {
                 System.out.println("要删除的节点" + no + "不存在");
             }
         }

@@ -1,5 +1,8 @@
 package cn.xiaoyes.algorithm.day0118;
 
+import cn.xiaoyes.algorithm.domain.ListNode;
+import cn.xiaoyes.algorithm.utils.Commons;
+
 public class LeetCode206 {
     public static void main(String[] args) {
         ListNode one = new ListNode(1);
@@ -13,12 +16,7 @@ public class LeetCode206 {
         four.next = five;
 //        ListNode node = reverseList(one);
         ListNode node = reverseList2(one);
-        ListNode cur = node;
-        while (cur != null) {
-            System.out.println(cur.val);
-            cur = cur.next;
-        }
-
+        Commons.iterationLikedList(node);
     }
 
 
@@ -42,23 +40,5 @@ public class LeetCode206 {
         head.next.next = head;
         head.next = null;
         return ret;
-    }
-
-
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
     }
 }

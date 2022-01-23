@@ -1,26 +1,27 @@
 package cn.xiaoyes.algorithm;
 
-import java.util.Stack;
+import cn.xiaoyes.algorithm.domain.TreeNode;
 
-public class Solution {
-    public static void main(String[] args) {
-        System.out.println(isValid("()[]{}"));
-    }
+import java.util.*;
 
-    public static boolean isValid(String s) {
-        if (s.isEmpty())
-            return true;
-        Stack<Character> stack = new Stack<>();
-        for (char c : s.toCharArray()) {
-            if (c == '(')
-                stack.push(')');
-            else if (c == '[')
-                stack.push(']');
-            else if (c == '{')
-                stack.push('}');
-            else if (stack.empty() || c != stack.pop())
-                return false;
+class Solution {
+    public List<Double> averageOfLevels(TreeNode root) {
+        List<Double> res = new ArrayList<>();
+        if (root == null) return res;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            double sum = 0;
+            int len = queue.size();
+            while (len > 0){
+                TreeNode node = queue.poll();
+                sum += node.val;
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
+                len--;
+            }
+            res.add(sum / len);
         }
-        return stack.empty();
+        return res;
     }
 }

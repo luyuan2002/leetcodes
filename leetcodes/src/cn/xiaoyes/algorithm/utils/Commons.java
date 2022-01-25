@@ -1,6 +1,7 @@
 package cn.xiaoyes.algorithm.utils;
 
 import cn.xiaoyes.algorithm.domain.ListNode;
+import cn.xiaoyes.algorithm.domain.TreeNode;
 
 import java.util.Arrays;
 
@@ -45,5 +46,23 @@ public class Commons {
 
     public static int[] productArray(int... arr) {
         return Arrays.stream(arr).toArray();
+    }
+
+    /**
+     * 生成二叉树
+     * @param data 数据
+     * @return 根节点
+     */
+    public static TreeNode binaryTree(int[] data,int i){
+        TreeNode root;
+        if (i >= data.length) return null;
+        root = new TreeNode(data[i]);
+        root.left = binaryTree(data,2 * i + 1);
+        root.right = binaryTree(data,2 * i + 2);
+        return root;
+    }
+
+    public static int[] GenList(int... data){
+        return Arrays.stream(data).toArray();
     }
 }

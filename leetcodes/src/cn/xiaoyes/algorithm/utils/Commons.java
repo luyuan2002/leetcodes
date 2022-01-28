@@ -48,12 +48,17 @@ public class Commons {
         return Arrays.stream(arr).toArray();
     }
 
+
+    public static TreeNode binaryTree(Integer[] data){
+        return binaryTree(data,0);
+    }
+
     /**
      * 生成二叉树
      * @param data 数据
      * @return 根节点
      */
-    public static TreeNode binaryTree(int[] data,int i){
+    public static TreeNode binaryTree(Integer[] data,int i){
         TreeNode root;
         if (i >= data.length) return null;
         root = new TreeNode(data[i]);
@@ -62,7 +67,10 @@ public class Commons {
         return root;
     }
 
-    public static int[] GenList(int... data){
-        return Arrays.stream(data).toArray();
+    public static Integer[] GenList(Integer... data){
+        System.out.println(Arrays.toString(Arrays.stream(data).toArray()));
+        Integer[] res = new Integer[data.length];
+        System.arraycopy(data, 0, res, 0, data.length);
+        return res;
     }
 }

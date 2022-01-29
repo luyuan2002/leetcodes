@@ -8,7 +8,7 @@ import java.util.Queue;
 
 public class LeetCode101 {
     public static void main(String[] args) {
-        TreeNode root = Commons.binaryTree(Commons.GenList(1, 2, 2, 3, 4, 4, 3), 0);
+        TreeNode root = Commons.binaryTree(Commons.GenList(1, 2, 2, 3, 4, 4, 3));
         System.out.println(isSymmetric(root));
         System.out.println(isSymmetric2(root));
     }

@@ -3,9 +3,7 @@ package cn.xiaoyes.algorithm.utils;
 import cn.xiaoyes.algorithm.domain.ListNode;
 import cn.xiaoyes.algorithm.domain.TreeNode;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Commons {
 
@@ -53,12 +51,10 @@ public class Commons {
     /**
      * 生成二叉树
      *
-     * @param rootIndex 索引
-     * @param values    数据
      * @return 根节点
      */
     public static TreeNode binaryTree(Integer[] array) {
-        if (array == null || array.length == 0){
+        if (array == null || array.length == 0) {
             return new TreeNode(0);
         }
         TreeNode root = new TreeNode(array[0]);
@@ -90,5 +86,19 @@ public class Commons {
         Integer[] res = new Integer[data.length];
         System.arraycopy(data, 0, res, 0, data.length);
         return res;
+    }
+
+    /**
+     * 深度优先遍历
+     *
+     * @param root 根节点
+     */
+    public static void dfs(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        System.out.println(root.val);
+        dfs(root.left);
+        dfs(root.right);
     }
 }

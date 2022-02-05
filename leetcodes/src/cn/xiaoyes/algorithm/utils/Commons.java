@@ -2,6 +2,7 @@ package cn.xiaoyes.algorithm.utils;
 
 import cn.xiaoyes.algorithm.domain.ListNode;
 import cn.xiaoyes.algorithm.domain.TreeNode;
+import cn.xiaoyes.algorithm.enums.DFS;
 
 import java.util.*;
 
@@ -100,5 +101,55 @@ public class Commons {
         System.out.println(root.val);
         dfs(root.left);
         dfs(root.right);
+    }
+
+    /**
+     * 深度优先搜索遍历二叉树
+     *
+     * @param root 根节点
+     * @param type 遍历类型(前/中/后)
+     * @return 遍历结果
+     */
+    public static List<Integer> traverseBinaryTree(TreeNode root, DFS type) {
+        List<Integer> res = new ArrayList<>();
+        dfsBinaryTree(root, res, type);
+        return res;
+    }
+
+    /**
+     * 深度优先搜索
+     *
+     * @param root 根节点
+     * @param type 遍历类型
+     */
+    private static void dfsBinaryTree(TreeNode root, List<Integer> res, DFS type) {
+        if (root == null) {
+            return;
+        }
+        if (type == DFS.BEFORE) res.add(root.val);
+        dfsBinaryTree(root.left, res, type);
+        if (type == DFS.IN) res.add(root.val);
+        dfsBinaryTree(root.right, res, type);
+        if (type == DFS.AFTER) res.add(root.val);
+    }
+
+    /**
+     * 从有序数组构建二叉搜素树
+     * @param res 有序数组
+     * @return 根节点
+     */
+    public static TreeNode BFS(Integer[] res) {
+        return buildBFS(res, 0, res.length - 1);
+    }
+
+    private static TreeNode buildBFS(Integer[] res, int left, int right) {
+        if (left > right) {
+            return null;
+        }
+        int mid = (left + right) / 2;
+        TreeNode root = new TreeNode(res[mid]);
+        root.left = buildBFS(res, left, mid - 1);
+        root.right = buildBFS(res, mid + 1, right);
+        return root;
     }
 }

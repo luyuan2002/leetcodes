@@ -7,7 +7,7 @@ public enum DFS {
     /**
      * 前序
      */
-    FRONT,
+    BEFORE,
     /**
      * 中序
      */

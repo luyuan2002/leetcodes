@@ -22,7 +22,7 @@ public class LeetCode77 {
             res.add(new ArrayList<>(path));
             return;
         }
-        for (int i = start; i <= n; i++) {
+        for (int i = start; i <= n - (k - path.size()) + 1; i++) {
             path.add(i);
             backtracking(n, k, i + 1, path);
             path.remove(path.size() - 1);

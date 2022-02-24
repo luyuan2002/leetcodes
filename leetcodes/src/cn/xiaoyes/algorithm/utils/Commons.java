@@ -45,6 +45,17 @@ public class Commons {
         return head;
     }
 
+    public static ListNode productLikedList(Integer[] data){
+        ListNode head = new ListNode(data[0]);
+        ListNode cur = head;
+        for (int i = 1; i < data.length; i++) {
+            ListNode node = new ListNode(data[i]);
+            cur.next = node;
+            cur = node;
+        }
+        return head;
+    }
+
     public static int[] productArray(int... arr) {
         return Arrays.stream(arr).toArray();
     }

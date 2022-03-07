@@ -2,7 +2,7 @@ package cn.xiaoyes.algorithm.day0307;
 
 import java.util.Scanner;
 
-public class LanQiao {
+public class LanQiao543 {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
